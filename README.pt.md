@@ -108,7 +108,7 @@ O launcher pede a lista de proxies, lembra dela e executa a CLI — criar, verif
 
 ## ✅ Verificado e funcionando — toda chave é testada
 
-Todas as verificações abaixo foram reexecutadas em **2026-10-21** a partir da CLI fornecida (saída do pool: WARP sobre `socks5h://127.0.0.1:40000`).
+Todas as verificações abaixo foram reexecutadas em **2026-10-21** a partir da CLI fornecida (saída do pool: proxy sobre `socks5h://127.0.0.1:40000`).
 
 | Verificação | Resultado |
 | --- | --- |
@@ -181,7 +181,7 @@ node src/cli.js --help
 
 ## 🛰️ Atrás de um proxy
 
-**Fortemente recomendado.** A ferramenta funciona direto onde a rede permite, mas o Turnstile deste painel precisa de uma classe de saída saudável (uma saída residencial / WARP foi medida funcionando de ponta a ponta; saídas gratuitas de curta duração morreram em menos de um minuto). Com `--pool`, toda requisição — incluindo o navegador — passa por uma saída da lista, em modo fail-closed: cada candidato é triado primeiro (`/api/status` + o script Turnstile com redirecionamentos) e o token então nasce na saída que o usará. Sem um pool, a execução vai direto e o widget geralmente nunca é montado.
+**Fortemente recomendado.** A ferramenta funciona direto onde a rede permite, mas o Turnstile deste painel precisa de uma classe de saída saudável (uma saída residencial / proxy foi medida funcionando de ponta a ponta; saídas gratuitas de curta duração morreram em menos de um minuto). Com `--pool`, toda requisição — incluindo o navegador — passa por uma saída da lista, em modo fail-closed: cada candidato é triado primeiro (`/api/status` + o script Turnstile com redirecionamentos) e o token então nasce na saída que o usará. Sem um pool, a execução vai direto e o widget geralmente nunca é montado.
 
 ## 📄 Arquivos
 

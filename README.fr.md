@@ -108,7 +108,7 @@ Le lanceur demande la liste de proxys, la mémorise et exécute le CLI — créa
 
 ## ✅ Vérifié fonctionnel — chaque clé est testée
 
-Toutes les vérifications ci-dessous ont été relancées le **2026-10-21** depuis le CLI livré (sortie du pool : WARP via `socks5h://127.0.0.1:40000`).
+Toutes les vérifications ci-dessous ont été relancées le **2026-10-21** depuis le CLI livré (sortie du pool : proxy via `socks5h://127.0.0.1:40000`).
 
 | Vérification | Résultat |
 | --- | --- |
@@ -181,7 +181,7 @@ node src/cli.js --help
 
 ## 🛰️ Derrière un proxy
 
-**Fortement recommandé.** L'outil fonctionne en direct là où le réseau le permet, mais le Turnstile de ce panel nécessite une classe de sortie saine (une sortie résidentielle / WARP a été mesurée fonctionnelle de bout en bout ; des sorties gratuites éphémères sont mortes en moins d'une minute). Avec `--pool`, chaque requête — le navigateur inclus — passe par une sortie de la liste, en échec fermé : chaque candidate est d'abord validée (`/api/status` + le script Turnstile avec redirections) et le token naît ensuite sur la sortie qui l'utilisera. Sans pool, l'exécution se fait en direct et le widget ne se monte généralement jamais.
+**Fortement recommandé.** L'outil fonctionne en direct là où le réseau le permet, mais le Turnstile de ce panel nécessite une classe de sortie saine (une sortie résidentielle / proxy a été mesurée fonctionnelle de bout en bout ; des sorties gratuites éphémères sont mortes en moins d'une minute). Avec `--pool`, chaque requête — le navigateur inclus — passe par une sortie de la liste, en échec fermé : chaque candidate est d'abord validée (`/api/status` + le script Turnstile avec redirections) et le token naît ensuite sur la sortie qui l'utilisera. Sans pool, l'exécution se fait en direct et le widget ne se monte généralement jamais.
 
 ## 📄 Fichiers
 

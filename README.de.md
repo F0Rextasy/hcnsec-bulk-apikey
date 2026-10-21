@@ -108,7 +108,7 @@ Der Launcher fragt nach der Proxy-Liste, merkt sie sich und führt die CLI aus �
 
 ## ✅ Verifiziert funktionierend — jeder Schlüssel wird getestet
 
-Alle untenstehenden Prüfungen wurden am **2026-10-21** mit der ausgelieferten CLI erneut ausgeführt (Pool-Exit: WARP über `socks5h://127.0.0.1:40000`).
+Alle untenstehenden Prüfungen wurden am **2026-10-21** mit der ausgelieferten CLI erneut ausgeführt (Pool-Exit: proxy über `socks5h://127.0.0.1:40000`).
 
 | Prüfung | Ergebnis |
 | --- | --- |
@@ -181,7 +181,7 @@ node src/cli.js --help
 
 ## 🛰️ Hinter einem Proxy
 
-**Dringend empfohlen.** Das Tool funktioniert direkt, wo das Netzwerk es zulässt, aber das Turnstile dieses Panels benötigt eine gesunde Exit-Klasse (ein Residential-Exit / WARP wurde durchgängig funktionierend gemessen; kurzlebige kostenlose Exits starben innerhalb einer Minute). Mit `--pool` geht jede Anfrage — auch der Browser — über einen Exit aus der Liste, fail-closed: jeder Kandidat wird zuerst geprüft (`/api/status` + das Turnstile-Skript mit Redirects) und das Token wird dann auf dem Exit geboren, der es verwenden wird. Ohne Pool läuft der Durchlauf direkt und das Widget mountet meist nie.
+**Dringend empfohlen.** Das Tool funktioniert direkt, wo das Netzwerk es zulässt, aber das Turnstile dieses Panels benötigt eine gesunde Exit-Klasse (ein Residential-Exit / proxy wurde durchgängig funktionierend gemessen; kurzlebige kostenlose Exits starben innerhalb einer Minute). Mit `--pool` geht jede Anfrage — auch der Browser — über einen Exit aus der Liste, fail-closed: jeder Kandidat wird zuerst geprüft (`/api/status` + das Turnstile-Skript mit Redirects) und das Token wird dann auf dem Exit geboren, der es verwenden wird. Ohne Pool läuft der Durchlauf direkt und das Widget mountet meist nie.
 
 ## 📄 Dateien
 

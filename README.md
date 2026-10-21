@@ -108,7 +108,7 @@ The launcher asks for the proxy list, remembers it, and runs the CLI — mint, v
 
 ## ✅ Verified working — every key is tested
 
-All checks below were re-run on **2026-10-21** from the shipped CLI (pool exit: WARP over `socks5h://127.0.0.1:40000`).
+All checks below were re-run on **2026-10-21** from the shipped CLI (pool exit: proxy over `socks5h://127.0.0.1:40000`).
 
 | Check | Result |
 | --- | --- |
@@ -181,7 +181,7 @@ node src/cli.js --help
 
 ## 🛰️ Behind a proxy
 
-**Strongly recommended.** The tool works direct where the network allows, but this panel's Turnstile needs a healthy exit class (a residential exit / WARP was measured working end-to-end; short-lived free exits died inside a minute). With `--pool` every request — the browser included — goes through an exit from the list, fail-closed: each candidate is vetted first (`/api/status` + the Turnstile script with redirects) and the token is then born on the exit that will use it. Without a pool the run goes direct and the widget usually never mounts.
+**Strongly recommended.** The tool works direct where the network allows, but this panel's Turnstile needs a healthy exit class (a residential exit / proxy was measured working end-to-end; short-lived free exits died inside a minute). With `--pool` every request — the browser included — goes through an exit from the list, fail-closed: each candidate is vetted first (`/api/status` + the Turnstile script with redirects) and the token is then born on the exit that will use it. Without a pool the run goes direct and the widget usually never mounts.
 
 ## 📄 Files
 

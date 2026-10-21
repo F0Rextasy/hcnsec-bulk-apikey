@@ -108,7 +108,7 @@ Başlatıcı proxy listesini ister, onu hatırlar ve CLI'yi çalıştırır — 
 
 ## ✅ Çalıştığı doğrulandı — her anahtar test edilir
 
-Aşağıdaki tüm kontroller **2026-10-21** tarihinde gönderilen CLI'den yeniden çalıştırıldı (havuz çıkışı: `socks5h://127.0.0.1:40000` üzerinden WARP).
+Aşağıdaki tüm kontroller **2026-10-21** tarihinde gönderilen CLI'den yeniden çalıştırıldı (havuz çıkışı: `socks5h://127.0.0.1:40000` üzerinden proxy).
 
 | Kontrol | Sonuç |
 | --- | --- |
@@ -181,7 +181,7 @@ node src/cli.js --help
 
 ## 🛰️ Proxy arkasında
 
-**Şiddetle önerilir.** Araç, ağın izin verdiği yerlerde doğrudan çalışır, ancak bu panelin Turnstile'ı sağlıklı bir çıkış sınıfı gerektirir (bir konut çıkışı / WARP uçtan uca çalışır olarak ölçüldü; kısa ömürlü ücretsiz çıkışlar bir dakika içinde öldü). `--pool` ile her istek — tarayıcı dahil — listeden bir çıkış üzerinden gider, başarısızlıkta kapanır: her aday önce doğrulanır (`/api/status` + yönlendirmelerle Turnstile betiği) ve token ardından onu kullanacak çıkışta doğar. Havuz olmadan çalıştırma doğrudan gider ve widget genellikle hiç yüklenmez.
+**Şiddetle önerilir.** Araç, ağın izin verdiği yerlerde doğrudan çalışır, ancak bu panelin Turnstile'ı sağlıklı bir çıkış sınıfı gerektirir (bir konut çıkışı / proxy uçtan uca çalışır olarak ölçüldü; kısa ömürlü ücretsiz çıkışlar bir dakika içinde öldü). `--pool` ile her istek — tarayıcı dahil — listeden bir çıkış üzerinden gider, başarısızlıkta kapanır: her aday önce doğrulanır (`/api/status` + yönlendirmelerle Turnstile betiği) ve token ardından onu kullanacak çıkışta doğar. Havuz olmadan çalıştırma doğrudan gider ve widget genellikle hiç yüklenmez.
 
 ## 📄 Dosyalar
 
