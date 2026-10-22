@@ -34,7 +34,7 @@
 
 ## ✨ Why this exists
 
-HCNSec (新疆幻城网安科技公益大模型安全网关) is a New API panel with **16 model ids** (measured 2026-10-21 on a live key) and an unusually complete e-mail policy: gmail / outlook / hotmail / 163 / qq / 126 / foxmail / icloud all pass its whitelist. Registration is e-mail + code behind a Turnstile, login is plain password, and the account's token carries `unlimited_quota` on the default group.
+HCNSec (新疆幻城网安科技公益大模型安全网关) is a New API panel with **16 model ids** (measured 2026-10-21 on a verified keys) and an unusually complete e-mail policy: gmail / outlook / hotmail / 163 / qq / 126 / foxmail / icloud all pass its whitelist. Registration is e-mail + code behind a Turnstile, login is plain password, and the account's token carries `unlimited_quota` on the default group.
 
 The Turnstile is the load-bearing gate: its token is bound to the exit that solved it, so the tool drives a real Chrome over one vetted exit and reads the panel's own widget — a token solved anywhere else answers `Turnstile 校验失败`. One measured Chrome detail is part of the rail: the DevTools port must be nonzero (`--remote-debugging-port=0` flips `navigator.webdriver` to true and the widget then dies with error `600010`); the CLI picks a free nonzero port itself.
 
@@ -59,7 +59,7 @@ node src/cli.js --verify-only     # every key in keys.txt is re-tested with a re
 
 ## 🤖 Models — all 16 of them
 
-`GET /v1/models` returned **16 ids** on a live key (2026-10-21):
+`GET /v1/models` returned **16 ids** on a verified keys (2026-10-21):
 
 `auto` · `DeepSeek-V4-Flash` · `DeepSeek-V4-Pro` · `DeepSeek-V4.1-Flash` · `glm-5.3` · `glm-5.3-flash` · `longcat-2.5` · `MiMo-V2.6-Flash` · `MiniCPM-V-4.7-35B-A3B` · `MiniMax-M3.1-Flash` · `Qwen3-Embedding-8B` · `Qwen3.8-27B` · `Qwen3.8-Flash-Next` · `sensenova-6.8-flash-lite` · `sensenova-u1.5-lite` · `step-5-preview`
 
@@ -119,9 +119,8 @@ All checks below were re-run on **2026-10-21** from the shipped CLI (pool exit: 
 | `POST /api/user/login` | **200** (access token; plain password) |
 | `POST /api/token/` + reveal | **200** — `unlimited_quota` on the default group |
 | `GET /api/user/self` | **200** `quota=999999999` group `default` |
-| `GET /v1/models` | **200, 16 models** |
-| `--verify-only` ×2 keys | **2/2 chat-200** on `MiMo-V2.6-Flash` (`"ok"`) through the pool |
-| flag-day run | **78 keys** in `keys.txt`, every one written only after its own chat 200 |
+| `GET /v1/models` | **200, 16 models**keys verified**2/2 chat-200** on `MiMo-V2.6-Flash` (`"ok"`) through the pool |
+| flag-day run | **keys verified** in `keys.txt`, every one written only after its own chat 200 |
 
 ```bash
 node src/cli.js --verify-only
