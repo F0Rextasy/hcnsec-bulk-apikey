@@ -18,6 +18,7 @@
 [![License](https://img.shields.io/badge/license-MIT-6ea8fe?style=for-the-badge)](LICENSE)
 [![Models](https://img.shields.io/badge/models-16%20served-412991?style=for-the-badge)](https://api.hcnsec.cn)
 [![9Router](https://img.shields.io/badge/9Router-connector-8B5CF6?style=for-the-badge)](#-connect-to-9router)
+[![OmniRoute](https://img.shields.io/badge/OmniRoute-connector-8B5CF6?style=for-the-badge)](#-connect-to-omniroute)
 [![X](https://img.shields.io/badge/X-%40bigbullapp-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/bigbullapp)
 
 [🛠 Быстрый старт](#-quick-start) · [🎁 Бесплатный тариф](#-free-tier--how-much-you-get) · [🤖 Модели](#-models--all-16-of-them) · [🧪 Использование API](#-how-to-use-the-api) · [✅ Проверено](#-verified-working--every-key-is-tested) · [🧭 Как это работает](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [⚙️ Опции](#️-cli-options) · [🛰️ Прокси](#️-behind-a-proxy) · [🐞 Проблемы](#-issues)
@@ -203,6 +204,15 @@ node src/connect-9router.js --base http://localhost:20128 --password 123456
 
 По умолчанию: `--prefix hcn`, `--base-url https://api.hcnsec.cn/v1`, `--model MiMo-V2.6-Flash`. Модели обслуживаются как `hcn/<model id>`. CLI может сделать то же самое одним выстрелом: `node src/cli.js --connect-9router`.
 
+## 🔌 Подключение к OmniRoute
+
+[OmniRoute](https://omniroute.online) — это самостоятельно размещаемый OpenAI-совместимый роутер:
+
+```bash
+node src/connect-omniroute.js --base http://localhost:20128 --password 123456
+```
+
+По умолчанию: `--prefix hcn`, `--base-url https://api.hcnsec.cn/v1`, `--model MiMo-V2.6-Flash`. Модели обслуживаются как `hcn/<model id>`. CLI может сделать то же самое одним выстрелом: `node src/cli.js --connect-omniroute`.
 ## 🔑 Что даёт один ключ
 
 | | |
