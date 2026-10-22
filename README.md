@@ -119,7 +119,8 @@ All checks below were re-run on **2026-10-21** from the shipped CLI (pool exit: 
 | `POST /api/user/login` | **200** (access token; plain password) |
 | `POST /api/token/` + reveal | **200** — `unlimited_quota` on the default group |
 | `GET /api/user/self` | **200** `quota=999999999` group `default` |
-| `GET /v1/models` | **200, 16 models**keys verified**2/2 chat-200** on `MiMo-V2.6-Flash` (`"ok"`) through the pool |
+| `GET /v1/models` | **200, 16 models** |
+| `--verify-only` ×2 keys | **2/2 chat-200** on `MiMo-V2.6-Flash` (`"ok"`) through the pool |
 | flag-day run | **keys verified** in `keys.txt`, every one written only after its own chat 200 |
 
 ```bash

@@ -94,6 +94,7 @@ print(c.chat.completions.create(model="MiMo-V2.6-Flash",
 cd hcnsec-bulk-apikey
 printf 'socks5://127.0.0.1:1080\n' > proxies.txt   # one exit per line — see the proxy note
 node src/launcher.js
+
 # or directly:
 node src/cli.js --count 1        # one account per run, by policy
 node src/cli.js --verify-only    # re-test every key already in keys.txt
