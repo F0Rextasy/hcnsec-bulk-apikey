@@ -105,7 +105,22 @@ The signup runs in a real Chrome driven over your exit (the Turnstile token is b
 
 ### 🖱️ The launcher
 
-The launcher asks for the proxy list, remembers it, and runs the CLI — mint, verify, screen exits, settings, help, Connect to 9Router.
+The launcher is the one-command path: it asks how many keys you want (Enter = `10`) and runs the CLI with `--auto`; `proxies.txt` is picked up automatically when it exists, otherwise the run goes direct. It also re-checks every key, screens your exit list, shows the remembered settings, connects keys to 9Router / OmniRoute — and it checks for Chrome up front, so a missing browser is reported before a run starts.
+
+### 🚀 One command
+
+```bash
+node src/launcher.js       # menu → "1) Mint keys" → how many keys? [10]
+node src/cli.js --count 10 # the same run, non-interactive
+```
+
+That is the whole tool: `--auto` is on by default — the Turnstile is solved in the built-in browser rail (a real Chrome over one pinned exit from `proxies.txt`, or DIRECT when there is none) and a key reaches `keys.txt` only after its own live chat 200. `--dry` prints the resolved plan — count, exits, solver, model — and exits without touching a file or the network:
+
+```bash
+node src/cli.js --count 10 --dry
+```
+
+> ⚠️ **Terms & account risk.** Automating a third-party sign-up is your call and your responsibility, not this repository's. Read HCNSec's terms before you run this and respect them: multi-account use is explicitly bannable there (announcement #53), a fleet that gets noticed can be banned whole, and the e-mail/captcha gates can change without notice. Mint only what you actually use.
 
 ## ✅ Verified working — every key is tested
 
@@ -179,6 +194,8 @@ node src/cli.js --help
 | `--keys <file>` | `keys.txt` | key file for `--verify-only` |
 | `--debug-port N` | free port | Chrome DevTools port — must be nonzero (see the why note) |
 | `--browser <exe>` | auto | Chrome binary path |
+| `--auto` | `on` | solve the Turnstile in the built-in browser rail (default) |
+| `--dry` | `off` | print the resolved plan and exit — no file writes, no requests |
 
 | Env | Default | Meaning |
 | --- | --- | --- |
@@ -197,6 +214,7 @@ node src/cli.js --help
 | `keys.txt` | live-verified keys — git-ignored |
 | `accounts.json` | account state incl. failed attempts |
 | `proxies.txt` | your exits — git-ignored |
+| `keys-dead.txt` | keys that stopped answering `--verify-only` — git-ignored |
 | `out/` | run logs, failure shots, `attempts.jsonl` ledger — git-ignored |
 
 ## 🔌 Connect to 9Router
