@@ -21,7 +21,7 @@
 [![OmniRoute](https://img.shields.io/badge/OmniRoute-connector-8B5CF6?style=for-the-badge)](#-connect-to-omniroute)
 [![X](https://img.shields.io/badge/X-%40bigbullapp-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/bigbullapp)
 
-[🛠 Quick start](#-quick-start) · [🎁 Free tier](#-free-tier--how-much-you-get) · [🤖 Models](#-models--all-16-of-them) · [🧪 Use the API](#-how-to-use-the-api) · [✅ Verified](#-verified-working--every-key-is-tested) · [🧭 How it works](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [⚙️ Options](#️-cli-options) · [🛰️ Proxies](#️-behind-a-proxy) · [🐞 Issues](#-issues)
+[🛠 Quick start](#-quick-start) · [🎁 Free tier](#-free-tier--how-much-you-get) · [🤖 Models](#-models--all-16-of-them) · [🧪 Use the API](#-how-to-use-the-api) · [✅ Verified](#-verified-working--every-key-is-tested) · [🧭 How it works](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [🔌 OmniRoute](#-connect-to-omniroute) · [⚙️ Options](#️-cli-options) · [🛰️ Proxies](#️-behind-a-proxy) · [🐞 Issues](#-issues)
 
 </div>
 
@@ -35,7 +35,7 @@
 
 ## ✨ Why this exists
 
-HCNSec (新疆幻城网安科技公益大模型安全网关) is a New API panel with **16 model ids** (measured 2026-10-21 on a verified keys) and an unusually complete e-mail policy: gmail / outlook / hotmail / 163 / qq / 126 / foxmail / icloud all pass its whitelist. Registration is e-mail + code behind a Turnstile, login is plain password, and the account's token carries `unlimited_quota` on the default group.
+HCNSec (新疆幻城网安科技公益大模型安全网关) is a New API panel with **16 model ids** (measured 2026-10-21 on a live key) and an unusually complete e-mail policy: gmail / outlook / hotmail / 163 / qq / 126 / foxmail / icloud all pass its whitelist. Registration is e-mail + code behind a Turnstile, login is plain password, and the account's token carries `unlimited_quota` on the default group.
 
 The Turnstile is the load-bearing gate: its token is bound to the exit that solved it, so the tool drives a real Chrome over one vetted exit and reads the panel's own widget — a token solved anywhere else answers `Turnstile 校验失败`. One measured Chrome detail is part of the rail: the DevTools port must be nonzero (`--remote-debugging-port=0` flips `navigator.webdriver` to true and the widget then dies with error `600010`); the CLI picks a free nonzero port itself.
 
@@ -60,7 +60,7 @@ node src/cli.js --verify-only     # every key in keys.txt is re-tested with a re
 
 ## 🤖 Models — all 16 of them
 
-`GET /v1/models` returned **16 ids** on a verified keys (2026-10-21):
+`GET /v1/models` returned **16 ids** on a live key (2026-10-21):
 
 `auto` · `DeepSeek-V4-Flash` · `DeepSeek-V4-Pro` · `DeepSeek-V4.1-Flash` · `glm-5.3` · `glm-5.3-flash` · `longcat-2.5` · `MiMo-V2.6-Flash` · `MiniCPM-V-4.7-35B-A3B` · `MiniMax-M3.1-Flash` · `Qwen3-Embedding-8B` · `Qwen3.8-27B` · `Qwen3.8-Flash-Next` · `sensenova-6.8-flash-lite` · `sensenova-u1.5-lite` · `step-5-preview`
 
@@ -109,12 +109,7 @@ The launcher asks for the proxy list, remembers it, and runs the CLI — mint, v
 
 ## ✅ Verified working — every key is tested
 
-> **Quality gates.** Every key here passed a live `chat-200` before it was written to `keys.txt`
-> (dead keys are never shipped). Router combos follow the same rule at the model level: an entry is
-> added **only if the model answers `chat-200` and can call tools** — a model without tool support,
-> a dead key or a dead provider is dropped instead of added. Works with **9Router and OmniRoute**.
-
-All checks below were re-run on **2026-10-21** from the shipped CLI (pool exit: proxy over `socks5h://127.0.0.1:40000`).
+All checks below were re-run on **2026-10-21** from the shipped CLI (pool exit: WARP over `socks5h://127.0.0.1:40000`).
 
 | Check | Result |
 | --- | --- |
@@ -127,12 +122,18 @@ All checks below were re-run on **2026-10-21** from the shipped CLI (pool exit: 
 | `GET /api/user/self` | **200** `quota=999999999` group `default` |
 | `GET /v1/models` | **200, 16 models** |
 | `--verify-only` ×2 keys | **2/2 chat-200** on `MiMo-V2.6-Flash` (`"ok"`) through the pool |
-| flag-day run | **keys verified** in `keys.txt`, every one written only after its own chat 200 |
+| flag-day run | every key in `keys.txt`, every one written only after its own chat 200 |
 
 ```bash
 node src/cli.js --verify-only
 node src/cli.js --screen
 ```
+
+> **Quality gates.** Every key here passed a live `chat-200` before it was written to `keys.txt`
+> (dead keys are never shipped). Router combos follow the same rule at the model level: an entry is
+> added **only if the model answers `chat-200` and can call tools** — a model without tool support,
+> a dead key or a dead provider is dropped instead of added. Re-run the verify step any time;
+> failures are reported, never hidden.
 
 ## 🧭 How it works
 
@@ -187,7 +188,7 @@ node src/cli.js --help
 
 ## 🛰️ Behind a proxy
 
-**Strongly recommended.** The tool works direct where the network allows, but this panel's Turnstile needs a healthy exit class (a residential exit / proxy was measured working end-to-end; short-lived free exits died inside a minute). With `--pool` every request — the browser included — goes through an exit from the list, fail-closed: each candidate is vetted first (`/api/status` + the Turnstile script with redirects) and the token is then born on the exit that will use it. Without a pool the run goes direct and the widget usually never mounts.
+**Strongly recommended.** The tool works direct where the network allows, but this panel's Turnstile needs a healthy exit class (a residential exit / WARP was measured working end-to-end; short-lived free exits died inside a minute). With `--pool` every request — the browser included — goes through an exit from the list, fail-closed: each candidate is vetted first (`/api/status` + the Turnstile script with redirects) and the token is then born on the exit that will use it. Without a pool the run goes direct and the widget usually never mounts.
 
 ## 📄 Files
 
@@ -217,6 +218,7 @@ node src/connect-omniroute.js --base http://localhost:20128 --password 123456
 ```
 
 Defaults: `--prefix hcn`, `--base-url https://api.hcnsec.cn/v1`, `--model MiMo-V2.6-Flash`. Models are served as `hcn/<model id>`. The CLI can do the same in one shot: `node src/cli.js --connect-omniroute`.
+
 ## 🔑 What one key gets you
 
 | | |

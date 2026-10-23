@@ -126,7 +126,7 @@ and reads tokens from the panel's own widget — no external solver service.
 
 Requests go through the exits in your proxy list when one is provided (--pool or
 the HCN_PROXIES env). Without a pool the tool connects DIRECTLY — for this panel
-that is usually the hard way: a measured exit class (residential/proxy) is needed
+that is usually the hard way: a measured exit class (residential/WARP) is needed
 for the Turnstile widget to load.
 `);
   process.exit(0);

@@ -11,7 +11,7 @@
 
 # hcnsec-bulk-apikey
 
-**HCNSec-Konten prägen — eines pro Durchlauf, nach der eigenen Richtlinie des Panels — mit automatisch generierten API-Schlüsseln: OpenAI-kompatible Inferenz + 9Router-Konnektor.**
+**HCNSec-Konten prägen — eines pro Lauf, nach der eigenen Richtlinie des Panels — mit automatisch generierten API-Schlüsseln: OpenAI-kompatible Inferenz + 9Router-Konnektor.**
 
 [![Node](https://img.shields.io/badge/Node-%E2%89%A518-3DA639?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-blue?style=for-the-badge)](#)
@@ -21,7 +21,7 @@
 [![OmniRoute](https://img.shields.io/badge/OmniRoute-connector-8B5CF6?style=for-the-badge)](#-connect-to-omniroute)
 [![X](https://img.shields.io/badge/X-%40bigbullapp-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/bigbullapp)
 
-[🛠 Schnellstart](#-quick-start) · [🎁 Kostenlose Stufe](#-free-tier--how-much-you-get) · [🤖 Modelle](#-models--all-16-of-them) · [🧪 Die API verwenden](#-how-to-use-the-api) · [✅ Verifiziert](#-verified-working--every-key-is-tested) · [🧭 So funktioniert es](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [⚙️ Optionen](#️-cli-options) · [🛰️ Proxys](#️-behind-a-proxy) · [🐞 Issues](#-issues)
+[🛠 Schnellstart](#-quick-start) · [🎁 Kostenlose Stufe](#-free-tier--how-much-you-get) · [🤖 Modelle](#-models--all-16-of-them) · [🧪 Die API nutzen](#-how-to-use-the-api) · [✅ Verifiziert](#-verified-working--every-key-is-tested) · [🧭 So funktioniert es](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [🔌 OmniRoute](#-connect-to-omniroute) · [⚙️ Optionen](#️-cli-options) · [🛰️ Proxys](#️-behind-a-proxy) · [🐞 Issues](#-issues)
 
 </div>
 
@@ -35,11 +35,11 @@
 
 ## ✨ Warum es das gibt
 
-HCNSec (新疆幻城网安科技公益大模型安全网关) ist ein New-API-Panel mit **16 Modell-IDs** (gemessen am 2026-10-21 mit einem Live-Schlüssel) und einer ungewöhnlich vollständigen E-Mail-Richtlinie: gmail / outlook / hotmail / 163 / qq / 126 / foxmail / icloud bestehen alle seine Whitelist. Die Registrierung erfolgt per E-Mail + Code hinter einem Turnstile, die Anmeldung ist ein einfaches Passwort, und das Token des Kontos trägt `unlimited_quota` in der Standardgruppe.
+HCNSec (新疆幻城网安科技公益大模型安全网关) ist ein New-API-Panel mit **16 Modell-IDs** (gemessen am 2026-10-21 mit einem Live-Schlüssel) und einer ungewöhnlich vollständigen E-Mail-Richtlinie: gmail / outlook / hotmail / 163 / qq / 126 / foxmail / icloud bestehen alle seine Whitelist. Die Registrierung erfolgt per E-Mail + Code hinter einem Turnstile, die Anmeldung per einfachem Passwort, und das Token des Kontos trägt `unlimited_quota` in der Standardgruppe.
 
 Das Turnstile ist das tragende Tor: Sein Token ist an den Exit gebunden, der es gelöst hat, daher steuert das Tool ein echtes Chrome über einen geprüften Exit und liest das eigene Widget des Panels — ein anderswo gelöstes Token antwortet mit `Turnstile 校验失败`. Ein gemessenes Chrome-Detail gehört zur Schiene: Der DevTools-Port muss ungleich null sein (`--remote-debugging-port=0` schaltet `navigator.webdriver` auf true und das Widget stirbt dann mit Fehler `600010`); die CLI wählt selbst einen freien Port ungleich null.
 
-> ⚠️ **Betreiberhinweis (gemessen, Ankündigung #53, 2026-09-30):** Das Panel erklärt, dass eine Person nicht mehrere Konten betreiben darf, und sagt, es habe verknüpfte Kontosätze gesperrt. Behandle jedes Konto als Risikoeinheit; dieses Tool verwendet standardmäßig **ein Konto pro Durchlauf**.
+> ⚠️ **Betreiberhinweis (gemessen, Ankündigung #53, 2026-09-30):** Das Panel erklärt, dass eine Person nicht mehrere Konten betreiben darf, und sagt, es habe verknüpfte Kontosätze gesperrt. Behandle jedes Konto als Risikoeinheit; dieses Tool verwendet standardmäßig **ein Konto pro Lauf**.
 
 ## 🎁 Kostenlose Stufe — wie viel du bekommst
 
@@ -50,9 +50,9 @@ Das Turnstile ist das tragende Tor: Sein Token ist an den Exit gebunden, der es 
 | Registrierung | E-Mail + 6-stelliger Code + Turnstile (Einmal-Token pro Schritt) |
 | E-Mail-Richtlinie | gmail, outlook, hotmail, **163, qq, 126, foxmail**, icloud akzeptiert; sina/aliyun/inboxbear abgelehnt (`EMAIL_ADDRESS_REJECTED` — inboxbear neu gemessen am 2026-10-21) |
 | Check-in | `/api/user/checkin` existiert, ist aber Turnstile-geschützt; der Kontingent-Spielraum macht es optional |
-| Multi-Konto-Richtlinie | **Ankündigung #53: Multi-Konto-Nutzung ist bannbar** — siehe Betreiberhinweis oben |
+| Multi-Konto-Richtlinie | **Ankündigung #53: Multi-Konto-Nutzung ist sperrbar** — siehe Betreiberhinweis oben |
 
-> 💡 Die kostenlose Stufe wird von HCNSec festgelegt und kann sich ändern. Prüfe die Live-Zahlen auf [api.hcnsec.cn](https://api.hcnsec.cn) — und lass das eigene Tor des Tools entscheiden:
+> 💡 Die kostenlose Stufe wird von HCNSec festgelegt und kann sich ändern. Prüfe die Live-Zahlen unter [api.hcnsec.cn](https://api.hcnsec.cn) — und lass das eigene Tor des Tools entscheiden:
 
 ```bash
 node src/cli.js --verify-only     # every key in keys.txt is re-tested with a real chat call
@@ -70,7 +70,7 @@ Eine Live-Completion antwortete auf den Verifikationsmodellen (`content: "ok"`):
 | --- | --- |
 | `MiMo-V2.6-Flash` | **200** — das Standard-Chat-Tor des Tools |
 | `longcat-2.5` | **200** |
-| `step-5-preview`, `Qwen3.8-Flash-Next`, `glm-5.3-flash`, `DeepSeek-V4-Flash` | **200** (früherer Durchlauf, gleiche Panel-Generation) |
+| `step-5-preview`, `Qwen3.8-Flash-Next`, `glm-5.3-flash`, `DeepSeek-V4-Flash` | **200** (früherer Lauf, gleiche Panel-Generation) |
 
 ```bash
 curl https://api.hcnsec.cn/v1/chat/completions \
@@ -78,7 +78,7 @@ curl https://api.hcnsec.cn/v1/chat/completions \
   -d '{"model":"MiMo-V2.6-Flash","messages":[{"role":"user","content":"hi"}],"max_tokens":8}'
 ```
 
-## 🧪 Die API verwenden
+## 🧪 So nutzt du die API
 
 Basis-URL **`https://api.hcnsec.cn/v1`** — OpenAI-kompatibel. Schlüssel funktionieren sowohl blank als auch mit `sk-`-Präfix (beide mit 200 auf `/v1/models` getestet); die Datei enthält die blanke Reveal-Form.
 
@@ -106,11 +106,11 @@ Die Registrierung läuft in einem echten Chrome, das über deinen Exit gesteuert
 
 ### 🖱️ Der Launcher
 
-Der Launcher fragt nach der Proxy-Liste, merkt sie sich und führt die CLI aus — prägen, verifizieren, Exits screenen, Einstellungen, Hilfe, Mit 9Router verbinden.
+Der Launcher fragt nach der Proxy-Liste, merkt sie sich und führt die CLI aus — prägen, verifizieren, Exits prüfen, Einstellungen, Hilfe, Connect to 9Router.
 
 ## ✅ Verifiziert funktionierend — jeder Schlüssel wird getestet
 
-Alle untenstehenden Prüfungen wurden am **2026-10-21** mit der ausgelieferten CLI erneut ausgeführt (Pool-Exit: proxy über `socks5h://127.0.0.1:40000`).
+Alle Prüfungen unten wurden am **2026-10-21** mit der ausgelieferten CLI erneut ausgeführt (Pool-Exit: WARP über `socks5h://127.0.0.1:40000`).
 
 | Prüfung | Ergebnis |
 | --- | --- |
@@ -123,12 +123,19 @@ Alle untenstehenden Prüfungen wurden am **2026-10-21** mit der ausgelieferten C
 | `GET /api/user/self` | **200** `quota=999999999` Gruppe `default` |
 | `GET /v1/models` | **200, 16 Modelle** |
 | `--verify-only` ×2 Schlüssel | **2/2 Chat-200** auf `MiMo-V2.6-Flash` (`"ok"`) über den Pool |
-| Flag-Day-Durchlauf | **78 Schlüssel** in `keys.txt`, jeder erst nach seinem eigenen Chat-200 geschrieben |
+| Flag-Day-Lauf | jeder Schlüssel in `keys.txt`, jeder erst nach seinem eigenen Chat-200 geschrieben |
 
 ```bash
 node src/cli.js --verify-only
 node src/cli.js --screen
 ```
+
+> **Qualitätstore.** Jeder Schlüssel hier hat ein Live-`chat-200` bestanden, bevor er in `keys.txt`
+> geschrieben wurde (tote Schlüssel werden nie ausgeliefert). Router-Kombinationen folgen derselben
+> Regel auf Modellebene: Ein Eintrag wird **nur hinzugefügt, wenn das Modell `chat-200` antwortet und
+> Tools aufrufen kann** — ein Modell ohne Tool-Unterstützung, ein toter Schlüssel oder ein toter
+> Anbieter wird verworfen statt hinzugefügt. Führe den Verifikationsschritt jederzeit erneut aus;
+> Fehler werden gemeldet, nie versteckt.
 
 ## 🧭 So funktioniert es
 
@@ -144,12 +151,12 @@ inbox (one address per account)                                  a fresh address
 | Schritt | Aufruf | Hinweise |
 | --- | --- | --- |
 | prüfen | `GET /api/status` + das Turnstile-Skript | ein Exit, der `challenges.cloudflare.com` nicht laden kann, wird vor allem anderen übersprungen |
-| Browser | Panel `/register` in echtem Chrome über den Exit | das In-Page-Widget antwortet mit einem 700+ Zeichen langen Token; das Token ist an die IP dieses Exits gebunden |
+| Browser | Panel `/register` in echtem Chrome über den Exit | das In-Page-Widget antwortet mit einem Token von 700+ Zeichen; das Token ist an die IP dieses Exits gebunden |
 | Code senden | `GET /api/verification?email=…&turnstile=<fresh>` | die Whitelist greift nach dem Token |
 | registrieren | `POST /api/user/register?turnstile=<fresh>` | E-Mail + Code + Passwort |
 | anmelden | `POST /api/user/login?turnstile=<fresh>` | einfaches Passwort (Verschlüsselung aus) |
 | Schlüssel | `POST /api/token/` (+ Reveal-Hop) | einmal auf die Festplatte geschrieben |
-| Nachweis | `GET /v1/models` + eine echte Completion | ein Schlüssel, der fehlschlägt, wird nie geschrieben |
+| Beweis | `GET /v1/models` + eine echte Completion | ein Schlüssel, der fehlschlägt, wird nie geschrieben |
 
 Jeder Panel-Aufruf trägt sein eigenes frisches Einmal-Token; ein gedrosselter Versand wartet 65 s ab, und eine bereits verwendete Adresse bekommt ein brandneues Postfach.
 
@@ -165,8 +172,8 @@ node src/cli.js --help
 
 | Flag | Standard | Bedeutung |
 | --- | --- | --- |
-| `--count N` | `1` | zu prägende Konten, seriell |
-| `--model <id>` | `MiMo-V2.6-Flash` | für das Live-Tor verwendetes Modell |
+| `--count N` | `1` | Anzahl der zu prägenden Konten, seriell |
+| `--model <id>` | `MiMo-V2.6-Flash` | Modell für das Live-Tor |
 | `--pool <file>` | `proxies.txt` | Exit-Pool, eine Zeile pro Proxy |
 | `--tries N` | `3` | pro Konto geprüfte Exit-Kandidaten |
 | `--gap MS` | `4000` | Pause zwischen Konten |
@@ -183,7 +190,7 @@ node src/cli.js --help
 
 ## 🛰️ Hinter einem Proxy
 
-**Dringend empfohlen.** Das Tool funktioniert direkt, wo das Netzwerk es zulässt, aber das Turnstile dieses Panels benötigt eine gesunde Exit-Klasse (ein Residential-Exit / proxy wurde durchgängig funktionierend gemessen; kurzlebige kostenlose Exits starben innerhalb einer Minute). Mit `--pool` geht jede Anfrage — auch der Browser — über einen Exit aus der Liste, fail-closed: jeder Kandidat wird zuerst geprüft (`/api/status` + das Turnstile-Skript mit Redirects) und das Token wird dann auf dem Exit geboren, der es verwenden wird. Ohne Pool läuft der Durchlauf direkt und das Widget mountet meist nie.
+**Dringend empfohlen.** Das Tool funktioniert direkt, wo das Netzwerk es erlaubt, aber das Turnstile dieses Panels braucht eine gesunde Exit-Klasse (ein Residential-Exit / WARP wurde durchgängig funktionierend gemessen; kurzlebige kostenlose Exits starben innerhalb einer Minute). Mit `--pool` geht jede Anfrage — der Browser eingeschlossen — über einen Exit aus der Liste, fail-closed: Jeder Kandidat wird zuerst geprüft (`/api/status` + das Turnstile-Skript mit Redirects) und das Token wird dann auf dem Exit geboren, der es verwenden wird. Ohne Pool läuft der Vorgang direkt und das Widget wird meist nie eingebunden.
 
 ## 📄 Dateien
 
@@ -202,7 +209,7 @@ node src/cli.js --help
 node src/connect-9router.js --base http://localhost:20128 --password 123456
 ```
 
-Standardwerte: `--prefix hcn`, `--base-url https://api.hcnsec.cn/v1`, `--model MiMo-V2.6-Flash`. Modelle werden als `hcn/<model id>` bereitgestellt. Die CLI kann dasselbe in einem Schritt tun: `node src/cli.js --connect-9router`.
+Standardwerte: `--prefix hcn`, `--base-url https://api.hcnsec.cn/v1`, `--model MiMo-V2.6-Flash`. Modelle werden als `hcn/<model id>` bereitgestellt. Die CLI kann dasselbe in einem Durchgang erledigen: `node src/cli.js --connect-9router`.
 
 ## 🔌 Mit OmniRoute verbinden
 
@@ -212,7 +219,8 @@ Standardwerte: `--prefix hcn`, `--base-url https://api.hcnsec.cn/v1`, `--model M
 node src/connect-omniroute.js --base http://localhost:20128 --password 123456
 ```
 
-Standardwerte: `--prefix hcn`, `--base-url https://api.hcnsec.cn/v1`, `--model MiMo-V2.6-Flash`. Modelle werden als `hcn/<model id>` bereitgestellt. Die CLI kann dasselbe in einem Schritt tun: `node src/cli.js --connect-omniroute`.
+Standardwerte: `--prefix hcn`, `--base-url https://api.hcnsec.cn/v1`, `--model MiMo-V2.6-Flash`. Modelle werden als `hcn/<model id>` bereitgestellt. Die CLI kann dasselbe in einem Durchgang erledigen: `node src/cli.js --connect-omniroute`.
+
 ## 🔑 Was ein Schlüssel dir bringt
 
 | | |
@@ -225,7 +233,7 @@ Standardwerte: `--prefix hcn`, `--base-url https://api.hcnsec.cn/v1`, `--model M
 
 ## 🐞 Issues
 
-Wenn HCNSec seine Registrierungs-Tore, den Turnstile-Sitekey oder die E-Mail-Whitelist ändert, stoppt das Tool dort und sagt es. **[Öffne ein Issue](../../issues)** mit dem Befehl und der exakten Ausgabe.
+Wenn HCNSec seine Registrierungstore, den Turnstile-Sitekey oder die E-Mail-Whitelist ändert, stoppt das Tool dort und sagt es. **[Öffne ein Issue](../../issues)** mit dem Befehl und der exakten Ausgabe.
 
 ## 📄 Lizenz
 

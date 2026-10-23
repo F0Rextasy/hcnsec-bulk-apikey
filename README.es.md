@@ -21,7 +21,7 @@
 [![OmniRoute](https://img.shields.io/badge/OmniRoute-connector-8B5CF6?style=for-the-badge)](#-connect-to-omniroute)
 [![X](https://img.shields.io/badge/X-%40bigbullapp-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/bigbullapp)
 
-[🛠 Inicio rápido](#-quick-start) · [🎁 Nivel gratuito](#-free-tier--how-much-you-get) · [🤖 Modelos](#-models--all-16-of-them) · [🧪 Usar la API](#-how-to-use-the-api) · [✅ Verificado](#-verified-working--every-key-is-tested) · [🧭 Cómo funciona](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [⚙️ Opciones](#️-cli-options) · [🛰️ Proxies](#️-behind-a-proxy) · [🐞 Problemas](#-issues)
+[🛠 Inicio rápido](#-quick-start) · [🎁 Nivel gratuito](#-free-tier--how-much-you-get) · [🤖 Modelos](#-models--all-16-of-them) · [🧪 Usar la API](#-how-to-use-the-api) · [✅ Verificado](#-verified-working--every-key-is-tested) · [🧭 Cómo funciona](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [🔌 OmniRoute](#-connect-to-omniroute) · [⚙️ Opciones](#️-cli-options) · [🛰️ Proxies](#️-behind-a-proxy) · [🐞 Problemas](#-issues)
 
 </div>
 
@@ -35,11 +35,11 @@
 
 ## ✨ Por qué existe esto
 
-HCNSec (新疆幻城网安科技公益大模型安全网关) es un panel de New API con **16 ids de modelos** (medidos el 2026-10-21 en una clave activa) y una política de correo electrónico inusualmente completa: gmail / outlook / hotmail / 163 / qq / 126 / foxmail / icloud pasan todos su lista blanca. El registro es correo electrónico + código detrás de un Turnstile, el inicio de sesión es con contraseña simple, y el token de la cuenta lleva `unlimited_quota` en el grupo predeterminado.
+HCNSec (新疆幻城网安科技公益大模型安全网关) es un panel de New API con **16 ids de modelo** (medidos el 2026-10-21 en una clave activa) y una política de correo inusualmente completa: gmail / outlook / hotmail / 163 / qq / 126 / foxmail / icloud pasan todos su lista blanca. El registro es correo + código detrás de un Turnstile, el inicio de sesión es contraseña simple, y el token de la cuenta lleva `unlimited_quota` en el grupo predeterminado.
 
-El Turnstile es la puerta crítica: su token está vinculado a la salida que lo resolvió, por lo que la herramienta controla un Chrome real a través de una salida verificada y lee el propio widget del panel — un token resuelto en cualquier otro lugar responde `Turnstile 校验失败`. Un detalle medido de Chrome es parte del riel: el puerto de DevTools debe ser distinto de cero (`--remote-debugging-port=0` cambia `navigator.webdriver` a true y el widget entonces muere con el error `600010`); la CLI elige por sí misma un puerto libre distinto de cero.
+El Turnstile es la puerta crítica: su token está vinculado a la salida que lo resolvió, así que la herramienta controla un Chrome real a través de una salida verificada y lee el propio widget del panel — un token resuelto en cualquier otro lugar responde `Turnstile 校验失败`. Un detalle medido de Chrome es parte del riel: el puerto de DevTools debe ser distinto de cero (`--remote-debugging-port=0` cambia `navigator.webdriver` a true y entonces el widget muere con el error `600010`); la CLI elige por sí misma un puerto libre distinto de cero.
 
-> ⚠️ **Nota del operador (medida, anuncio #53, 2026-09-30):** el panel declara que una persona no puede ejecutar múltiples cuentas y dice que ha prohibido conjuntos de cuentas vinculadas. Trata cada cuenta como una unidad de riesgo; esta herramienta por defecto usa **una cuenta por ejecución**.
+> ⚠️ **Nota para el operador (medida, anuncio n.º 53, 2026-09-30):** el panel declara que una persona no puede ejecutar varias cuentas y dice que ha prohibido conjuntos de cuentas vinculadas. Trata cada cuenta como una unidad de riesgo; esta herramienta usa por defecto **una cuenta por ejecución**.
 
 ## 🎁 Nivel gratuito — cuánto obtienes
 
@@ -47,12 +47,12 @@ El Turnstile es la puerta crítica: su token está vinculado a la salida que lo 
 | --- | --- |
 | Cuota de la cuenta | `999,999,999` en `/api/user/self` (vista ilimitada en el grupo predeterminado) |
 | `quota_per_unit` | 500,000 |
-| Registro | correo electrónico + código de 6 caracteres + Turnstile (token de un solo uso por paso) |
+| Registro | correo + código de 6 caracteres + Turnstile (token de un solo uso por paso) |
 | Política de correo | gmail, outlook, hotmail, **163, qq, 126, foxmail**, icloud aceptados; sina/aliyun/inboxbear rechazados (`EMAIL_ADDRESS_REJECTED` — inboxbear re-medido el 2026-10-21) |
 | Check-in | `/api/user/checkin` existe pero está protegido por Turnstile; el margen de cuota lo hace opcional |
-| Política multicuenta | **anuncio #53: el uso multicuenta es motivo de prohibición** — ver la nota del operador arriba |
+| Política multicuenta | **anuncio n.º 53: el uso de varias cuentas puede provocar el baneo** — consulta la nota para el operador de arriba |
 
-> 💡 El nivel gratuito lo establece HCNSec y puede cambiar. Consulta los números en vivo en [api.hcnsec.cn](https://api.hcnsec.cn) — y deja que la propia puerta de la herramienta decida:
+> 💡 El nivel gratuito lo define HCNSec y puede cambiar. Consulta los números en vivo en [api.hcnsec.cn](https://api.hcnsec.cn) — y deja que la propia puerta de la herramienta decida:
 
 ```bash
 node src/cli.js --verify-only     # every key in keys.txt is re-tested with a real chat call
@@ -110,25 +110,31 @@ El lanzador pide la lista de proxies, la recuerda y ejecuta la CLI — crear, ve
 
 ## ✅ Verificado y funcionando — cada clave se prueba
 
-Todas las comprobaciones siguientes se volvieron a ejecutar el **2026-10-21** desde la CLI distribuida (salida del pool: proxy sobre `socks5h://127.0.0.1:40000`).
+Todas las comprobaciones siguientes se volvieron a ejecutar el **2026-10-21** desde la CLI distribuida (salida del pool: WARP sobre `socks5h://127.0.0.1:40000`).
 
 | Comprobación | Resultado |
 | --- | --- |
 | `--screen` (verificación de salida) | **✔ 1.3 s** — `/api/status` 200 + `challenges.cloudflare.com/turnstile/v0/api.js` 200 con redirecciones |
 | riel del navegador (Chrome real) | token de Turnstile en la página **752 caracteres**, `navigator.webdriver:false` — y el panel lo **aceptó**: `/api/verification` respondió con la política de dominio de correo (`EMAIL_ADDRESS_REJECTED`), no con un fallo de Turnstile |
-| `GET /api/status` | **200** — registro activado, verificación de correo activada, turnstile activado, checkin activado |
-| `POST /api/user/register` | **200** `{"message":"","success":true}` (correo electrónico + código + token nuevo) |
+| `GET /api/status` | **200** — registro activado, verificación por correo activada, turnstile activado, checkin activado |
+| `POST /api/user/register` | **200** `{"message":"","success":true}` (correo + código + token nuevo) |
 | `POST /api/user/login` | **200** (token de acceso; contraseña simple) |
 | `POST /api/token/` + revelar | **200** — `unlimited_quota` en el grupo predeterminado |
 | `GET /api/user/self` | **200** `quota=999999999` grupo `default` |
 | `GET /v1/models` | **200, 16 modelos** |
 | `--verify-only` ×2 claves | **2/2 chat-200** en `MiMo-V2.6-Flash` (`"ok"`) a través del pool |
-| ejecución de día de bandera | **78 claves** en `keys.txt`, cada una escrita solo después de su propio chat 200 |
+| ejecución de día de cambio | cada clave en `keys.txt`, cada una escrita solo después de su propio chat 200 |
 
 ```bash
 node src/cli.js --verify-only
 node src/cli.js --screen
 ```
+
+> **Puertas de calidad.** Cada clave aquí pasó un `chat-200` en vivo antes de escribirse en `keys.txt`
+> (las claves muertas nunca se distribuyen). Las combinaciones del router siguen la misma regla a nivel de modelo: una entrada se
+> añade **solo si el modelo responde `chat-200` y puede llamar a herramientas** — un modelo sin soporte de herramientas,
+> una clave muerta o un proveedor muerto se descarta en lugar de añadirse. Vuelve a ejecutar el paso de verificación cuando quieras;
+> los fallos se informan, nunca se ocultan.
 
 ## 🧭 Cómo funciona
 
@@ -144,14 +150,14 @@ inbox (one address per account)                                  a fresh address
 | Paso | Llamada | Notas |
 | --- | --- | --- |
 | verificar | `GET /api/status` + el script de Turnstile | una salida que no puede cargar `challenges.cloudflare.com` se omite antes que nada |
-| navegador | `/register` del panel en Chrome real a través de la salida | el widget en la página responde con un token de más de 700 caracteres; el token está vinculado a la IP de esa salida |
+| navegador | panel `/register` en Chrome real a través de la salida | el widget en la página responde con un token de más de 700 caracteres; el token está vinculado a la IP de esa salida |
 | enviar código | `GET /api/verification?email=…&turnstile=<fresh>` | la lista blanca se aplica después del token |
-| registrar | `POST /api/user/register?turnstile=<fresh>` | correo electrónico + código + contraseña |
+| registrar | `POST /api/user/register?turnstile=<fresh>` | correo + código + contraseña |
 | iniciar sesión | `POST /api/user/login?turnstile=<fresh>` | contraseña simple (cifrado desactivado) |
-| clave | `POST /api/token/` (+ salto de revelado) | escrita en disco una vez |
+| clave | `POST /api/token/` (+ salto de revelado) | se escribe en disco una vez |
 | prueba | `GET /v1/models` + una completion real | una clave que falla nunca se escribe |
 
-Cada llamada al panel lleva su propio token de un solo uso nuevo; un envío limitado espera 65 s, y una dirección ya en uso obtiene un buzón completamente nuevo.
+Cada llamada al panel lleva su propio token nuevo de un solo uso; un envío limitado espera 65 s, y una dirección ya en uso recibe un buzón completamente nuevo.
 
 ## ⚙️ Opciones de la CLI
 
@@ -183,7 +189,7 @@ node src/cli.js --help
 
 ## 🛰️ Detrás de un proxy
 
-**Muy recomendado.** La herramienta funciona directo donde la red lo permite, pero el Turnstile de este panel necesita una clase de salida saludable (una salida residencial / proxy se midió funcionando de extremo a extremo; las salidas gratuitas de corta duración murieron en menos de un minuto). Con `--pool` cada solicitud — incluido el navegador — pasa por una salida de la lista, con fallo cerrado: cada candidata se verifica primero (`/api/status` + el script de Turnstile con redirecciones) y luego el token nace en la salida que lo usará. Sin un pool, la ejecución va directo y el widget normalmente nunca se monta.
+**Muy recomendado.** La herramienta funciona directa donde la red lo permite, pero el Turnstile de este panel necesita una clase de salida saludable (una salida residencial / WARP se midió funcionando de extremo a extremo; las salidas gratuitas de corta duración murieron en menos de un minuto). Con `--pool` cada solicitud — incluido el navegador — pasa por una salida de la lista, con fallo cerrado: cada candidata se verifica primero (`/api/status` + el script de Turnstile con redirecciones) y luego el token nace en la salida que lo usará. Sin un pool, la ejecución va directa y el widget normalmente nunca se monta.
 
 ## 📄 Archivos
 
@@ -196,7 +202,7 @@ node src/cli.js --help
 
 ## 🔌 Conectar a 9Router
 
-[9Router](https://9router.com) es un router autoalojado compatible con OpenAI:
+[9Router](https://9router.com) es un router autoalojado y compatible con OpenAI:
 
 ```bash
 node src/connect-9router.js --base http://localhost:20128 --password 123456
@@ -206,13 +212,14 @@ Predeterminados: `--prefix hcn`, `--base-url https://api.hcnsec.cn/v1`, `--model
 
 ## 🔌 Conectar a OmniRoute
 
-[OmniRoute](https://omniroute.online) es un router autoalojado compatible con OpenAI:
+[OmniRoute](https://omniroute.online) es un router autoalojado y compatible con OpenAI:
 
 ```bash
 node src/connect-omniroute.js --base http://localhost:20128 --password 123456
 ```
 
 Predeterminados: `--prefix hcn`, `--base-url https://api.hcnsec.cn/v1`, `--model MiMo-V2.6-Flash`. Los modelos se sirven como `hcn/<model id>`. La CLI puede hacer lo mismo en un solo paso: `node src/cli.js --connect-omniroute`.
+
 ## 🔑 Qué te da una clave
 
 | | |
@@ -221,7 +228,7 @@ Predeterminados: `--prefix hcn`, `--base-url https://api.hcnsec.cn/v1`, `--model
 | 🎁 Qué da el proveedor | una cuenta con vista `unlimited_quota` en el grupo predeterminado, 16 modelos |
 | 🔑 Qué te da una clave | una clave en su propia cuenta: los ids verificados en `https://api.hcnsec.cn/v1` |
 | 🌐 Forma de la API | compatible con OpenAI: `POST https://api.hcnsec.cn/v1/chat/completions` |
-| 🔒 Tus datos | solo se contacta con `api.hcnsec.cn` y el backend de tu buzón |
+| 🔒 Tus datos | solo se contacta con `api.hcnsec.cn` y tu backend de buzón |
 
 ## 🐞 Problemas
 
@@ -229,7 +236,7 @@ Si HCNSec cambia sus puertas de registro, la sitekey de Turnstile o la lista bla
 
 ## 📄 Licencia
 
-MIT © 2026 — ver [LICENSE](LICENSE).
+MIT © 2026 — consulta [LICENSE](LICENSE).
 
 <div align="center">
 

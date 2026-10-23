@@ -13,7 +13,7 @@
  * Usage:
  *   node src/connect-9router.js \
  *     --base http://localhost:20128 --password 123456 \
- *     --api-key Hjcop6…(48-char) [--name "HCNSec"] [--prefix hcnsec]
+ *     --api-key YOUR_KEY [--name "HCNSec"] [--prefix hcnsec]
  *
  *   node src/connect-9router.js                  # register every key in keys.txt
  *   node src/connect-9router.js --model <id>     # pin the connection's default model
@@ -25,7 +25,7 @@
  *   --name <name>      provider-node name       (default HCNSec)
  *   --prefix <slug>    provider prefix in 9Router (default hcnsec)
  *   --base-url <url>   provider base URL        (default https://api.hcnsec.cn/v1)
- *   --model <id>       connection default model (default MiniMaxAI/MiniMax-M2.7)
+ *   --model <id>       connection default model (default: provider's default model)
  *
  * Zero dependencies. Node.js >= 18.
  */
@@ -33,7 +33,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const UA = 'hcnsec-bulk-9router-connector/1.0';
+const UA = 'hcnsec-bulk-9router-connector/1.0'
 
 const DEFAULTS = {
   base: 'http://localhost:20128',

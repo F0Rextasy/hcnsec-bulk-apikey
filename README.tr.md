@@ -11,7 +11,7 @@
 
 # hcnsec-bulk-apikey
 
-**HCNSec hesapları oluşturun — panelin kendi politikasına göre her çalıştırmada bir tane — otomatik oluşturulan API anahtarlarıyla: OpenAI uyumlu çıkarım + 9Router bağlayıcısı.**
+**HCNSec hesapları oluşturun — panelin kendi politikasına göre, her çalıştırmada bir tane — otomatik oluşturulan API anahtarlarıyla: OpenAI uyumlu çıkarım + 9Router bağlayıcısı.**
 
 [![Node](https://img.shields.io/badge/Node-%E2%89%A518-3DA639?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-blue?style=for-the-badge)](#)
@@ -21,7 +21,7 @@
 [![OmniRoute](https://img.shields.io/badge/OmniRoute-connector-8B5CF6?style=for-the-badge)](#-connect-to-omniroute)
 [![X](https://img.shields.io/badge/X-%40bigbullapp-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/bigbullapp)
 
-[🛠 Hızlı başlangıç](#-quick-start) · [🎁 Ücretsiz katman](#-free-tier--how-much-you-get) · [🤖 Modeller](#-models--all-16-of-them) · [🧪 API'yi kullanma](#-how-to-use-the-api) · [✅ Doğrulandı](#-verified-working--every-key-is-tested) · [🧭 Nasıl çalışır](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [⚙️ Seçenekler](#️-cli-options) · [🛰️ Proxy'ler](#️-behind-a-proxy) · [🐞 Sorunlar](#-issues)
+[🛠 Hızlı başlangıç](#-quick-start) · [🎁 Ücretsiz katman](#-free-tier--how-much-you-get) · [🤖 Modeller](#-models--all-16-of-them) · [🧪 API'yi kullanın](#-how-to-use-the-api) · [✅ Doğrulandı](#-verified-working--every-key-is-tested) · [🧭 Nasıl çalışır](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [🔌 OmniRoute](#-connect-to-omniroute) · [⚙️ Seçenekler](#️-cli-options) · [🛰️ Proxy'ler](#️-behind-a-proxy) · [🐞 Sorunlar](#-issues)
 
 </div>
 
@@ -35,11 +35,11 @@
 
 ## ✨ Bu neden var
 
-HCNSec (新疆幻城网安科技公益大模型安全网关), **16 model kimliğine** sahip bir New API panelidir (canlı bir anahtarda 2026-10-21 tarihinde ölçüldü) ve alışılmadık derecede eksiksiz bir e-posta politikasına sahiptir: gmail / outlook / hotmail / 163 / qq / 126 / foxmail / icloud hepsi beyaz listesinden geçer. Kayıt, bir Turnstile arkasında e-posta + koddur, giriş düz paroladır ve hesabın token'ı varsayılan grupta `unlimited_quota` taşır.
+HCNSec (新疆幻城网安科技公益大模型安全网关), **16 model kimliğine** sahip bir New API panelidir (canlı bir anahtarda 2026-10-21 tarihinde ölçüldü) ve alışılmadık derecede eksiksiz bir e-posta politikasına sahiptir: gmail / outlook / hotmail / 163 / qq / 126 / foxmail / icloud hepsi beyaz listesinden geçer. Kayıt, bir Turnstile arkasında e-posta + koddan oluşur, giriş düz paroladır ve hesabın token'ı varsayılan grupta `unlimited_quota` taşır.
 
-Turnstile yük taşıyan kapıdır: token'ı onu çözen çıkışa bağlıdır, bu yüzden araç doğrulanmış bir çıkış üzerinden gerçek bir Chrome'u çalıştırır ve panelin kendi widget'ını okur — başka bir yerde çözülen bir token `Turnstile 校验失败` yanıtı verir. Ölçülen bir Chrome ayrıntısı rayın bir parçasıdır: DevTools portu sıfırdan farklı olmalıdır (`--remote-debugging-port=0`, `navigator.webdriver` değerini true'ya çevirir ve widget ardından `600010` hatasıyla ölür); CLI kendisi boş, sıfırdan farklı bir port seçer.
+Turnstile yük taşıyan kapıdır: token'ı onu çözen çıkışa bağlıdır, bu nedenle araç doğrulanmış tek bir çıkış üzerinden gerçek bir Chrome sürer ve panelin kendi widget'ını okur — başka bir yerde çözülen bir token `Turnstile 校验失败` yanıtı verir. Ölçülen bir Chrome ayrıntısı rayın parçasıdır: DevTools portu sıfırdan farklı olmalıdır (`--remote-debugging-port=0`, `navigator.webdriver` değerini true'ya çevirir ve widget ardından `600010` hatasıyla ölür); CLI kendisi boş, sıfırdan farklı bir port seçer.
 
-> ⚠️ **Operatör notu (ölçüldü, duyuru #53, 2026-09-30):** panel, bir kişinin birden fazla hesap çalıştıramayacağını belirtir ve bağlantılı hesap gruplarını yasakladığını söyler. Her hesabı bir risk birimi olarak değerlendirin; bu araç varsayılan olarak **her çalıştırmada bir hesap** kullanır.
+> ⚠️ **Operatör notu (ölçüldü, duyuru #53, 2026-09-30):** panel, bir kişinin birden fazla hesap çalıştıramayacağını belirtir ve bağlantılı hesap kümelerini yasakladığını söyler. Her hesabı bir risk birimi olarak değerlendirin; bu araç varsayılan olarak **her çalıştırmada bir hesap** kullanır.
 
 ## 🎁 Ücretsiz katman — ne kadar alırsınız
 
@@ -64,7 +64,7 @@ node src/cli.js --verify-only     # keys.txt içindeki her anahtar gerçek bir s
 
 `auto` · `DeepSeek-V4-Flash` · `DeepSeek-V4-Pro` · `DeepSeek-V4.1-Flash` · `glm-5.3` · `glm-5.3-flash` · `longcat-2.5` · `MiMo-V2.6-Flash` · `MiniCPM-V-4.7-35B-A3B` · `MiniMax-M3.1-Flash` · `Qwen3-Embedding-8B` · `Qwen3.8-27B` · `Qwen3.8-Flash-Next` · `sensenova-6.8-flash-lite` · `sensenova-u1.5-lite` · `step-5-preview`
 
-Canlı bir tamamlama, doğrulama modellerinde yanıt verdi (`content: "ok"`):
+Doğrulama modellerinde canlı bir tamamlama yanıt verdi (`content: "ok"`):
 
 | Model Kimliği | Durum |
 | --- | --- |
@@ -102,33 +102,39 @@ node src/cli.js --verify-only    # keys.txt içinde zaten bulunan her anahtarı 
 node src/cli.js --screen         # çıkış listesini panele karşı test et
 ```
 
-Kayıt, çıkışınız üzerinden yönetilen gerçek bir Chrome'da çalışır (Turnstile token'ı ona bağlıdır); `keys.txt` yalnızca `GET /v1/models` + gerçek bir tamamlamadan sonra yazılır ve `accounts.json` hesap durumunu saklar.
+Kayıt, çıkışınız üzerinden sürülen gerçek bir Chrome'da çalışır (Turnstile token'ı ona bağlıdır); `keys.txt` yalnızca `GET /v1/models` + gerçek bir tamamlamadan sonra yazılır ve `accounts.json` hesap durumunu saklar.
 
 ### 🖱️ Başlatıcı
 
-Başlatıcı proxy listesini ister, onu hatırlar ve CLI'yi çalıştırır — oluştur, doğrula, çıkışları tara, ayarlar, yardım, 9Router'a Bağlan.
+Başlatıcı proxy listesini sorar, onu hatırlar ve CLI'yi çalıştırır — oluştur, doğrula, çıkışları tara, ayarlar, yardım, 9Router'a Bağlan.
 
 ## ✅ Çalıştığı doğrulandı — her anahtar test edilir
 
-Aşağıdaki tüm kontroller **2026-10-21** tarihinde gönderilen CLI'den yeniden çalıştırıldı (havuz çıkışı: `socks5h://127.0.0.1:40000` üzerinden proxy).
+Aşağıdaki tüm kontroller **2026-10-21** tarihinde gönderilen CLI ile yeniden çalıştırıldı (havuz çıkışı: `socks5h://127.0.0.1:40000` üzerinden WARP).
 
 | Kontrol | Sonuç |
 | --- | --- |
 | `--screen` (çıkış doğrulama) | **✔ 1.3 s** — `/api/status` 200 + `challenges.cloudflare.com/turnstile/v0/api.js` yönlendirmelerle 200 |
-| tarayıcı rayı (gerçek Chrome) | sayfa içi Turnstile token'ı **752 karakter**, `navigator.webdriver:false` — ve panel onu **kabul etti**: `/api/verification` Turnstile hatası değil, e-posta alan adı politikasını (`EMAIL_ADDRESS_REJECTED`) yanıtladı |
+| tarayıcı rayı (gerçek Chrome) | sayfa içi Turnstile token'ı **752 karakter**, `navigator.webdriver:false` — ve panel onu **kabul etti**: `/api/verification` bir Turnstile hatası değil, e-posta alan adı politikasını (`EMAIL_ADDRESS_REJECTED`) yanıtladı |
 | `GET /api/status` | **200** — kayıt açık, e-posta doğrulama açık, turnstile açık, checkin açık |
 | `POST /api/user/register` | **200** `{"message":"","success":true}` (e-posta + kod + taze token) |
 | `POST /api/user/login` | **200** (erişim token'ı; düz parola) |
 | `POST /api/token/` + açığa çıkarma | **200** — varsayılan grupta `unlimited_quota` |
 | `GET /api/user/self` | **200** `quota=999999999` grup `default` |
 | `GET /v1/models` | **200, 16 model** |
-| `--verify-only` ×2 anahtar | havuz üzerinden `MiMo-V2.6-Flash` (`"ok"`) üzerinde **2/2 sohbet-200** |
-| bayrak günü çalıştırması | `keys.txt` içinde **78 anahtar**, her biri yalnızca kendi sohbet 200'ünden sonra yazıldı |
+| `--verify-only` ×2 anahtar | havuz üzerinden `MiMo-V2.6-Flash` üzerinde **2/2 sohbet-200** (`"ok"`) |
+| bayrak günü çalıştırması | `keys.txt` içindeki her anahtar, her biri yalnızca kendi sohbet 200'ünden sonra yazıldı |
 
 ```bash
 node src/cli.js --verify-only
 node src/cli.js --screen
 ```
+
+> **Kalite kapıları.** Buradaki her anahtar, `keys.txt` dosyasına yazılmadan önce canlı bir `chat-200` geçti
+> (ölü anahtarlar asla gönderilmez). Yönlendirici kombinasyonları model düzeyinde aynı kuralı izler: bir giriş
+> yalnızca **model `chat-200` yanıtlıyorsa ve araçları çağırabiliyorsa** eklenir — araç desteği olmayan bir model,
+> ölü bir anahtar veya ölü bir sağlayıcı eklenmek yerine çıkarılır. Doğrulama adımını istediğiniz zaman yeniden çalıştırın;
+> hatalar bildirilir, asla gizlenmez.
 
 ## 🧭 Nasıl çalışır
 
@@ -151,15 +157,15 @@ gelen kutusu (hesap başına bir adres)                            hesap başın
 | anahtar | `POST /api/token/` (+ açığa çıkarma atlaması) | bir kez diske yazılır |
 | kanıt | `GET /v1/models` + gerçek bir tamamlama | başarısız olan bir anahtar asla yazılmaz |
 
-Her panel çağrısı kendi taze tek kullanımlık token'ını taşır; kısıtlanan bir gönderim 65 s geri çekilir ve zaten kullanımda olan bir adres yepyeni bir posta kutusu alır.
+Her panel çağrısı kendi taze tek kullanımlık token'ını taşır; kısıtlanan bir gönderim 65 sn geri çekilir ve zaten kullanımda olan bir adres yepyeni bir posta kutusu alır.
 
 ## ⚙️ CLI seçenekleri
 
 ```bash
 node src/cli.js --count 1          # hesap oluştur (politikaya göre her çalıştırmada bir tane)
 node src/cli.js --verify-only      # keys.txt içindeki her anahtarı yeniden doğrula
-node src/cli.js --screen           # çıkış havuzu kendi kendini testi (durum + Turnstile kapıları)
-node src/cli.js --connect-9router  # sağlayıcıyı + yerel bir 9Router üzerinde bir anahtar kaydet
+node src/cli.js --screen           # çıkış havuzu kendi kendini test et (durum + Turnstile kapıları)
+node src/cli.js --connect-9router  # yerel bir 9Router üzerinde sağlayıcı + bir anahtar kaydet
 node src/cli.js --help
 ```
 
@@ -170,7 +176,7 @@ node src/cli.js --help
 | `--pool <file>` | `proxies.txt` | çıkış havuzu, proxy başına bir satır |
 | `--tries N` | `3` | hesap başına doğrulanan çıkış adayları |
 | `--gap MS` | `4000` | hesaplar arası duraklama |
-| `--code-timeout S` | `300` | e-posta kodunu bekleme saniyesi |
+| `--code-timeout S` | `300` | e-posta kodunu bekleme süresi (saniye) |
 | `--keys <file>` | `keys.txt` | `--verify-only` için anahtar dosyası |
 | `--debug-port N` | boş port | Chrome DevTools portu — sıfırdan farklı olmalıdır (neden notuna bakın) |
 | `--browser <exe>` | otomatik | Chrome ikili dosya yolu |
@@ -183,7 +189,7 @@ node src/cli.js --help
 
 ## 🛰️ Proxy arkasında
 
-**Şiddetle önerilir.** Araç, ağın izin verdiği yerlerde doğrudan çalışır, ancak bu panelin Turnstile'ı sağlıklı bir çıkış sınıfı gerektirir (bir konut çıkışı / proxy uçtan uca çalışır olarak ölçüldü; kısa ömürlü ücretsiz çıkışlar bir dakika içinde öldü). `--pool` ile her istek — tarayıcı dahil — listeden bir çıkış üzerinden gider, başarısızlıkta kapanır: her aday önce doğrulanır (`/api/status` + yönlendirmelerle Turnstile betiği) ve token ardından onu kullanacak çıkışta doğar. Havuz olmadan çalıştırma doğrudan gider ve widget genellikle hiç yüklenmez.
+**Şiddetle önerilir.** Araç, ağın izin verdiği yerlerde doğrudan çalışır, ancak bu panelin Turnstile'ı sağlıklı bir çıkış sınıfı gerektirir (bir konut çıkışı / WARP uçtan uca çalışır olarak ölçüldü; kısa ömürlü ücretsiz çıkışlar bir dakika içinde öldü). `--pool` ile her istek — tarayıcı dahil — listeden bir çıkış üzerinden gider, hataya kapalı: her aday önce doğrulanır (`/api/status` + yönlendirmelerle Turnstile betiği) ve token ardından onu kullanacak çıkışta doğar. Havuz olmadan çalıştırma doğrudan gider ve widget genellikle hiç yüklenmez.
 
 ## 📄 Dosyalar
 
@@ -192,7 +198,7 @@ node src/cli.js --help
 | `keys.txt` | canlı doğrulanmış anahtarlar — git tarafından yok sayılır |
 | `accounts.json` | başarısız denemeler dahil hesap durumu |
 | `proxies.txt` | çıkışlarınız — git tarafından yok sayılır |
-| `out/` | çalıştırma günlükleri, başarısızlık ekran görüntüleri, `attempts.jsonl` defteri — git tarafından yok sayılır |
+| `out/` | çalıştırma günlükleri, hata görüntüleri, `attempts.jsonl` defteri — git tarafından yok sayılır |
 
 ## 🔌 9Router'a bağlan
 
@@ -213,6 +219,7 @@ node src/connect-omniroute.js --base http://localhost:20128 --password 123456
 ```
 
 Varsayılanlar: `--prefix hcn`, `--base-url https://api.hcnsec.cn/v1`, `--model MiMo-V2.6-Flash`. Modeller `hcn/<model id>` olarak sunulur. CLI aynısını tek seferde yapabilir: `node src/cli.js --connect-omniroute`.
+
 ## 🔑 Bir anahtar size ne kazandırır
 
 | | |
