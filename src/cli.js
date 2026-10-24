@@ -43,7 +43,7 @@
  *   --count N        accounts (= keys) to mint, serial               [1]
  *   --model <id>     model used for the live gate   [MiMo-V2.6-Flash]
  *   --pool <file>    proxy list, one exit per line (env HCN_PROXIES) [optional]
- *   --tries N        exit candidates vetted per account               [3]
+ *   --exits N        exit candidates vetted per account               [6]
  *   --gap MS         pause between accounts                           [4000]
  *   --timeout MS     per-request timeout (node side)                 [60000]
  *   --code-timeout S seconds to wait for the e-mail code               [300]
@@ -90,6 +90,11 @@ const DEFAULT_SITEKEY = '0x4AAAAAAFIovBqwE9xMkrm_';
 const UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36';
 
+// Shared/disposable boxes carry other tenants' mail: only a message that names
+// this panel may supply the code (measured 2026-10-24: dddai read a stranger's
+// code from a shared box). Override: --brand / HCN_BRAND_RE.
+let BRAND = new RegExp(process.env.HCN_BRAND_RE || 'hcnsec', 'i');
+
 // ------------------------------------------------------------------- options
 const argv = process.argv.slice(2);
 function arg(name, dflt) {
@@ -113,7 +118,8 @@ if (has('help') || has('h')) {
   --count N      accounts to mint, serial                             [1]
   --model <id>   model used for the live gate      [MiMo-V2.6-Flash]
   --pool <file>  proxy list, one exit per line (env HCN_PROXIES) [optional]
-  --tries N      exit candidates vetted per account                   [3]
+  --brand RE     sender/subject fence for the code mail (env HCN_BRAND_RE)
+  --exits N      exit candidates vetted per account                   [6]
   --code-timeout S  seconds to wait for the e-mail code             [300]
   --keys <file>  key file for --verify-only            [keys.txt]
   --debug-port N Chrome DevTools port — must be nonzero, free one picked by default
@@ -134,7 +140,7 @@ for the Turnstile widget to load.
 
 const COUNT = Math.max(1, parseInt(arg('count', '1'), 10) || 1);
 const MODEL = arg('model', process.env.HCN_MODEL || 'MiMo-V2.6-Flash');
-const TRIES = Math.max(1, parseInt(arg('tries', '3'), 10) || 3);
+const EXITS = Math.max(1, parseInt(arg('exits', '6'), 10) || 6);
 const GAP_MS = Math.max(0, parseInt(arg('gap', '4000'), 10) || 0);
 const TIMEOUT_MS = Math.max(5000, parseInt(arg('timeout', '60000'), 10) || 60000);
 const CODE_TIMEOUT_MS = Math.max(30000, (parseInt(arg('code-timeout', '300'), 10) || 300) * 1000);
@@ -144,6 +150,7 @@ const SCREEN = has('screen');
 const CONNECT_9ROUTER = has('connect-9router');
 const KEYS_ARG = arg('keys', KEYS_FILE);
 const KEYS_PATH = path.isAbsolute(KEYS_ARG) ? KEYS_ARG : fs.existsSync(KEYS_ARG) ? path.resolve(KEYS_ARG) : path.resolve(ROOT, KEYS_ARG);
+if (arg('brand')) BRAND = new RegExp(arg('brand'), 'i'); // --brand overrides the mail fence
 
 const DRY = has('dry');
 const AUTO = !has('no-auto'); // the browser rail is the only captcha path; --no-auto has no fallback
@@ -461,9 +468,22 @@ function extractCode(blobRaw) {
   return six ? six[1] : null;
 }
 
-async function waitForCode(exit, box, { timeoutMs = CODE_TIMEOUT_MS, pollMs = 5000 } = {}) {
+/**
+ * Ids already in the box, taken BEFORE the code is requested. The Emailnator
+ * gmail pool is shared and recycled, so a mail that was already there belongs to
+ * another tenant and its digits are not ours. A failed snapshot is not an empty
+ * box — it retries, then throws.
+ */
+async function snapshotIds(exit, box) {
+  for (let k = 0; k < 4; k++) {
+    try { const msgs = await inboxList(exit, box); if (Array.isArray(msgs)) return new Set(msgs.map((m) => String((m && m.id) || '')).filter(Boolean)); } catch (e) { /* retry */ }
+    await sleep(4000);
+  }
+  throw new Error('inbox snapshot failed (exits unhealthy)');
+}
+async function waitForCode(exit, box, { timeoutMs = CODE_TIMEOUT_MS, pollMs = 5000, seenIds = [] } = {}) {
   const deadline = Date.now() + timeoutMs;
-  const seen = new Set();
+  const seen = new Set(seenIds instanceof Set ? seenIds : (seenIds || []).map(String));
   while (Date.now() < deadline) {
     let messages = [];
     try { messages = await inboxList(exit, box); } catch (e) { /* retry */ }
@@ -475,6 +495,8 @@ async function waitForCode(exit, box, { timeoutMs = CODE_TIMEOUT_MS, pollMs = 50
         try { full = await inboxRead(exit, box, id); } catch (e) { continue; }
       }
       seen.add(id);
+      // Only the panel's own mail may supply the code (shared box = other tenants).
+      if (!BRAND.test(`${m.from || full.from || ''} ${m.subject || full.subject || ''}`)) continue;
       const blob = `${m.subject || full.subject || ''}\n${full.content || full.html || full.text || ''}`;
       const code = extractCode(blob);
       if (code) return { code, subject: String(m.subject || full.subject || '').slice(0, 80), from: String(m.from || full.from || '').slice(0, 80) };
@@ -522,9 +544,11 @@ async function mintOnExit(n, exit, sitekey) {
     let password = 'Hc' + rand(6) + '!' + rand(6) + '9';
     let sent = null;
     stage = 'mail';
+  let seenIds = new Set();
     for (let boxTry = 1; boxTry <= 4 && !sent; boxTry++) {
       for (let attempt = 1; attempt <= 2 && !sent; attempt++) {
         const tok = await getToken(page, `verification${boxTry}-${attempt}`);
+        seenIds = await snapshotIds(exit, box);
         const r = await inPage(`/api/verification?email=${encodeURIComponent(email)}&turnstile=${encodeURIComponent(tok)}`);
         log(`  verification -> ${r.status} ${String(r.text).slice(0, 160)}`);
         const msg = String((r.json && r.json.message) || '');
@@ -547,7 +571,7 @@ async function mintOnExit(n, exit, sitekey) {
 
     // 5) code
     stage = 'code';
-    let code = (await waitForCode(exit, box)).code;
+    let code = (await waitForCode(exit, box, { seenIds })).code;
     log(`  code ${code}`);
 
     // 6) register — candidates from the inbox, each with its own fresh token.
@@ -558,6 +582,7 @@ async function mintOnExit(n, exit, sitekey) {
         const msgs = await inboxList(exit, box);
         for (const m of msgs.slice(0, 12)) {
           const full = await inboxRead(exit, box, m.id).catch(() => null);
+          if (!BRAND.test(`${m.from || (full && full.from) || ''} ${m.subject || (full && full.subject) || ''}`)) continue;
           const blob = `${m.subject || ''} ${(full && (full.content || full.html || full.text)) || ''}`;
           const cand = extractCode(blob);
           if (!cand || tried.has(cand)) continue;
