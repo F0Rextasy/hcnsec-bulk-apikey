@@ -189,7 +189,7 @@ node src/cli.js --help
 | `--count N` | `1` | 要铸造的账号数，串行 |
 | `--model <id>` | `MiMo-V2.6-Flash` | 用于实时关卡的模型 |
 | `--pool <file>` | `proxies.txt` | 出口池，每行一个代理 |
-| `--tries N` | `3` | 每个账号审查的出口候选数 |
+| `--exits N` | `6` | 每个账号审查的出口候选数 |
 | `--gap MS` | `4000` | 账号之间的暂停 |
 | `--code-timeout S` | `300` | 等待电子邮件验证码的秒数 |
 | `--keys <file>` | `keys.txt` | 用于 `--verify-only` 的密钥文件 |

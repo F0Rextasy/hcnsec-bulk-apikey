@@ -189,7 +189,7 @@ node src/cli.js --help
 | `--count N` | `1` | 생성할 계정 수, 직렬 |
 | `--model <id>` | `MiMo-V2.6-Flash` | 라이브 관문에 사용되는 모델 |
 | `--pool <file>` | `proxies.txt` | 출구 풀, 프록시당 한 줄 |
-| `--tries N` | `3` | 계정당 검증할 출구 후보 |
+| `--exits N` | `6` | 계정당 검증할 출구 후보 |
 | `--gap MS` | `4000` | 계정 간 일시 정지 |
 | `--code-timeout S` | `300` | 이메일 코드를 기다리는 초 |
 | `--keys <file>` | `keys.txt` | `--verify-only`용 키 파일 |

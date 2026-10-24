@@ -189,7 +189,7 @@ node src/cli.js --help
 | `--count N` | `1` | Anzahl der zu erstellenden Konten, seriell |
 | `--model <id>` | `MiMo-V2.6-Flash` | Modell für das Live-Gate |
 | `--pool <file>` | `proxies.txt` | Exit-Pool, eine Zeile pro Proxy |
-| `--tries N` | `3` | pro Konto geprüfte Exit-Kandidaten |
+| `--exits N` | `6` | pro Konto geprüfte Exit-Kandidaten |
 | `--gap MS` | `4000` | Pause zwischen den Konten |
 | `--code-timeout S` | `300` | Sekunden Wartezeit auf den E-Mail-Code |
 | `--keys <file>` | `keys.txt` | Schlüsseldatei für `--verify-only` |

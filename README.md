@@ -188,7 +188,7 @@ node src/cli.js --help
 | `--count N` | `1` | accounts to mint, serial |
 | `--model <id>` | `MiMo-V2.6-Flash` | model used for the live gate |
 | `--pool <file>` | `proxies.txt` | exit pool, one line per proxy |
-| `--tries N` | `3` | exit candidates vetted per account |
+| `--exits N` | `6` | exit candidates vetted per account |
 | `--gap MS` | `4000` | pause between accounts |
 | `--code-timeout S` | `300` | seconds to wait for the e-mail code |
 | `--keys <file>` | `keys.txt` | key file for `--verify-only` |

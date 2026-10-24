@@ -189,7 +189,7 @@ node src/cli.js --help
 | `--count N` | `1` | contas a criar, em série |
 | `--model <id>` | `MiMo-V2.6-Flash` | modelo usado para o portão ao vivo |
 | `--pool <file>` | `proxies.txt` | pool de saídas, uma linha por proxy |
-| `--tries N` | `3` | candidatos de saída verificados por conta |
+| `--exits N` | `6` | candidatos de saída verificados por conta |
 | `--gap MS` | `4000` | pausa entre contas |
 | `--code-timeout S` | `300` | segundos para esperar pelo código de e-mail |
 | `--keys <file>` | `keys.txt` | arquivo de chaves para `--verify-only` |

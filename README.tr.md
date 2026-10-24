@@ -189,7 +189,7 @@ node src/cli.js --help
 | `--count N` | `1` | oluşturulacak hesap sayısı, seri |
 | `--model <id>` | `MiMo-V2.6-Flash` | canlı kapı için kullanılan model |
 | `--pool <file>` | `proxies.txt` | çıkış havuzu, proxy başına bir satır |
-| `--tries N` | `3` | hesap başına denetlenen çıkış adayı |
+| `--exits N` | `6` | hesap başına denetlenen çıkış adayı |
 | `--gap MS` | `4000` | hesaplar arası duraklama |
 | `--code-timeout S` | `300` | e-posta kodunu bekleme süresi (saniye) |
 | `--keys <file>` | `keys.txt` | `--verify-only` için anahtar dosyası |

@@ -189,7 +189,7 @@ node src/cli.js --help
 | `--count N` | `1` | 作成するアカウント数、直列 |
 | `--model <id>` | `MiMo-V2.6-Flash` | ライブゲートに使用するモデル |
 | `--pool <file>` | `proxies.txt` | 出口プール、プロキシごとに1行 |
-| `--tries N` | `3` | アカウントごとに検証する出口候補 |
+| `--exits N` | `6` | アカウントごとに検証する出口候補 |
 | `--gap MS` | `4000` | アカウント間の一時停止 |
 | `--code-timeout S` | `300` | メールコードを待つ秒数 |
 | `--keys <file>` | `keys.txt` | `--verify-only` 用のキーファイル |
