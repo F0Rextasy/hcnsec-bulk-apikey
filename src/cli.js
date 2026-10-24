@@ -764,7 +764,7 @@ async function mintOnExit(n, exit, sitekey) {
 }
 
 async function attemptAccount(n, exits, seed) {
-  const limit = Math.min(TRIES, exits.length);
+  const limit = Math.min(EXITS, exits.length);
   for (let t = 0; t < limit; t++) {
     const exit = exits[(seed + t) % exits.length];
     let vet;
